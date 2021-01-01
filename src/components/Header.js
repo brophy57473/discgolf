@@ -1,8 +1,10 @@
 
 function Header() {
     return(
+        <div className="header-container">
         <header>
             <h1>Brophy Disc Golf Scoring</h1>
+        </header>
             <nav>
                 <ul>
                     <li>Match Play</li>
@@ -10,7 +12,7 @@ function Header() {
                     <li>Wolf</li>
                 </ul>
             </nav>
-        </header>
+        </div>
     )
 }
 

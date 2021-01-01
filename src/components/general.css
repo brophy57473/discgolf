@@ -6,22 +6,26 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
 }
-header {
+.header-container {
     text-align: center;
     background-color: lightgray;
     color: navy;
-    grid-column: 1 / span 12
+    grid-column: 1 / span 12;
+    padding-top: 10px;
 }
-header li:hover {
+header {
+    margin: 10px;
+}
+nav li:hover {
     background-color: navy;
     color: white;
 }
-header ul {
+nav ul {
     display: flex;
     justify-content: space-around;
     list-style: none;
 }
-header li {
+nav li {
     width: 100%;
     padding: 20px;
 }
@@ -47,4 +51,7 @@ header li {
     background-color: lightgray;
     color: navy;
     box-shadow: 0 0 10px inset black;
+}
+button, input {
+    padding: 10px;
 }

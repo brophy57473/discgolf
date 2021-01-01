@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState } from 'react';
 
 function Body (props) {
 
@@ -39,8 +39,8 @@ function Body (props) {
         <br/>
         Enter the names of the players - Click on their names in the list to remove them
         <form onSubmit={handleSubmit}>
-            <input type="text" name="name" placeholder="name" required onChange={handleChange} />
-            <input type="submit" value="Submit" />
+            <input type="text" name="name" placeholder="Name" required onChange={handleChange} />
+            <input id="addPlayer" type="submit" value="Add Player" />
         </form>
 
  
@@ -51,7 +51,7 @@ function Body (props) {
             </li>
             )}
         </ul>
-                       
+        <button id="startRound">Start Round</button>              
         </div>
     )
 }

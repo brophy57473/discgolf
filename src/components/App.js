@@ -1,6 +1,5 @@
 import Header from './Header';
 import Body from './Body';
-import './general.css';
 
 function App() {
   return (
