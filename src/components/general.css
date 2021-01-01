@@ -2,30 +2,49 @@
     margin: 0;
     padding: 0;
 }
+.global {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
 header {
     text-align: center;
-    padding: 20px;
+    background-color: lightgray;
+    color: navy;
+    grid-column: 1 / span 12
+}
+header li:hover {
+    background-color: navy;
+    color: white;
 }
 header ul {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
+    list-style: none;
+}
+header li {
+    width: 100%;
     padding: 20px;
 }
-header ul li {
-    display: inline;
-    list-style: none;   
-}
-#bleh {
-    color: blue;
+.main {
     margin: 20px;
     text-align: center;
-    font-size: 48px;
+    grid-column: 4 / span 6;
 }
-form {
-    margin: 20px;
-    text-align: center;
+.main form {
+    margin: 10px;
 }
-
-.main ul {
-    text-align: center;
+.main li{
+    background-color: navy;
+    color: white;
+    width: 70%;
+    border-radius: 10px;
+    margin: 10px auto;
+    list-style: none;
+    padding: 20px;
+    box-shadow: 0 0 10px inset white;
+}
+.main li:hover{
+    background-color: lightgray;
+    color: navy;
+    box-shadow: 0 0 10px inset black;
 }

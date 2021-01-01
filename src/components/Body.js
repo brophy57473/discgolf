@@ -35,7 +35,9 @@ function Body (props) {
     return (
         <div className="main">
         Practicing with components - this prop should display "Brophy": {props.name}
-
+        <br/>
+        <br/>
+        Enter the names of the players - Click on their names in the list to remove them
         <form onSubmit={handleSubmit}>
             <input type="text" name="name" placeholder="name" required onChange={handleChange} />
             <input type="submit" value="Submit" />

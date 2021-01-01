@@ -4,10 +4,9 @@ import './general.css';
 
 function App() {
   return (
-    <div>
+    <div className="global">
       <Header />
       <Body name="Brophy"/>
-      <div id="bleh">This will be amazing!</div>
     </div>
   );
 }
