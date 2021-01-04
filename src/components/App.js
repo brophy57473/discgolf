@@ -1,11 +1,11 @@
 import Header from './Header';
-import Body from './Body';
+import Main from './Main';
 
 function App() {
   return (
-    <div className="global">
+    <div>
       <Header />
-      <Body name="Brophy"/>
+      <Main />
     </div>
   );
 }
