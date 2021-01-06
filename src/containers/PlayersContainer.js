@@ -3,28 +3,26 @@ import Players from '../components/Players';
 
 const PlayerContainer = () => {
    
-    /*const [player, setPlayer] = useState([]); 
+    const [player, setPlayer] = useState([]); 
     const handleChange = (event) => {
-        setPlayer(() => ([event.target.value]));
-        console.log(player);
+        let name = event.target.value;
+        setPlayer(() => (name));
     }
 
     const [names, setNames] = useState([]);
     const handleSubmit = (event) => {
         event.preventDefault();
-        setNames((prev) => ([{name: player, id: Date.now()},...prev]));
+        setNames((prev) => ([{name: player, id: Date.now(), score: 0},...prev]));
         event.target.reset();
-        console.log(names);
     }
 
     const handleClick = (idToDelete) => {
-        setNames((prev) => prev.filter((name) => name.id !== idToDelete));
-    }*/
+        setNames((prev) => prev.filter((name) => name.name !== idToDelete.target.innerHTML));
+    }
 
     return (
-        //commenting out where future props will get passed
-        //<Players handleChange={handleChange} handleSubmit={handleSubmit} handleClick={handleClick} names={names}/>
-        <Players />
+        <Players handleChange={handleChange} handleSubmit={handleSubmit} handleClick={handleClick} names={names}/>
+       
     )
 }
 

@@ -9,15 +9,16 @@ function Header() {
         <header>
             <h1 >Brophy Disc Golf Scoring</h1>
         </header>
-            <nav>
-                <ul>
-                    <li><Link to='/'>Home</Link></li>
-                    <li><Link to='/players'>Players</Link></li>
-                    <li><Link to='/scoring'>Scoring</Link></li>
-                </ul>
-            </nav>
+            
         </div>
     )
 }
 
 export default Header;
+/*<nav>
+                <ul>
+                    <li><Link to='/'>Home</Link></li>
+                    <li><Link to='/players'>Players</Link></li>
+                    <li><Link to='/scoring'>Scoring</Link></li>
+                </ul>
+            </nav> */

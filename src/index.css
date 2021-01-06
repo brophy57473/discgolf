@@ -78,7 +78,17 @@ form {
   padding: 10px 30px;
   margin-top: 20px;
 }
-
+#player-list {
+  list-style: none;
+}
+.player-list-item {
+  padding: 10px;
+  background-color: navy;
+  color: white;
+  box-shadow: 0px 0px 5px 1px white;
+  margin: 10px;
+  border-radius: 5px;
+}
 /* SCORING PAGE */
 .score-title {
   font-size: 36px;
@@ -99,6 +109,6 @@ form {
   align-content: center;
   margin-top: 20px;
 }
-#previous, #next, #push, #won-hole {
+#previous, #next, #push, .won-hole {
   padding: 5px;
 }
