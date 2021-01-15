@@ -3,43 +3,53 @@ import Scoring from '../components/Scoring';
 
 const ScoringContainer = (props) => {
     const { names } = props.location.state;
-
-   /*const [ scores, setScores ] = useState(names);
-    const wonHole = (e) => {
-         console.log(e.target.id);
-         setScores();
-    }*/
-
-    const [ hole, setHole ] = useState(1)
-    const nextHole = (num) => {
-        if ((hole < 18 && num === 1) || (hole > 1 && num === -1)) {
-            setHole(hole + num);
-        }
-    };
+   const scorecard = [];
+   scorecard[0] = names;
+   scorecard[0].hole = 1;
+   scorecard[0].points = 1;
+   let holeData = names;
+    //LOOK AT YOUR PROPS AND USE SCORES!!
     
+    const [ scores, setScores ] = useState(scorecard);
+    const wonHole = (e) => {
+         let newScore = scores[scores.length - 1].map((name) => {
+             return {
+                 name: name.name, 
+                 id: name.id, 
+                 score: name.score,
+                };
+         })
+         newScore.hole = scores[scores.length - 1].hole + 1;
+         newScore.points = 1;
+         const nameIndex = newScore.findIndex((name) => {return name.name === e.target.id});
+         newScore[nameIndex].score = newScore[nameIndex].score + scores[scores.length - 1].points;
+         setScores((prev) => [...prev, newScore]);
+         console.log(scores);
+        }
 
-    const [points, setPoints] = useState(1);
-    const adjustPoints = (num) => {
-        setPoints(points + 1);
-        setHole(hole + num);
-    };
+    const pushHole = () => {
+        let newScore = scores[scores.length - 1].map((name) => {
+            return {name: name.name, id: name.id, score: name.score};
+        })
+        newScore.hole = scores[scores.length - 1].hole + 1;
+        newScore.points = scores[scores.length - 1].points + 1;
+        setScores((prev) => [...prev, newScore]);
+    }
 
-    const players = [{
-        name: 'Player 1',
-        score: 25,
-        id: 1
-    },{
-        name: 'Player 2',
-        score: 10,
-        id: 2
-    },{
-        name: 'Player 3',
-        score: 1,
-        id: 3
-    }]
+    const prevHole = () => {
+        let tempScores = scores.map((name) => {
+            return name;
+        })
+        tempScores.pop();
+        setScores(tempScores);
+    }
 
     return (
-        <Scoring nextHole={nextHole} adjustPoints={adjustPoints} holeInfo={hole} points={points} players={names}/>
+        <Scoring 
+        pushHole={pushHole} 
+        prevHole={prevHole}
+        data={scores[scores.length - 1]} 
+        wonHole={wonHole}/>
     )
 }
 

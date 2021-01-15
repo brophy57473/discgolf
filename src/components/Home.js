@@ -7,11 +7,11 @@ function Home (props) {
         <div className="main">
         Select your format then hit 'Add Players'
         <div id="options"> 
-        <ul id="options-list">
-            <li><input type='radio' value='match' name='format' />Match Play</li>
-            <li><input type='radio' value='skins' name='format' />Skins</li>
-            <li><input type='radio' value='wolf' name='format' />Wolf</li>
-        </ul>
+        <select name="format" id="options-list">
+            <option value='match' name='format'>Match Play</option>
+            <option value='skins' name='format'>Skins</option>
+            <option value='wolf' name='format'>Wolf</option>
+        </select>
 
         </div>
         <Link to='/players'><button id="startRound">Add Players</button></Link>         
