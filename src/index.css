@@ -116,3 +116,6 @@ form {
 .won-hole {
   width: 50px;
 }
+button {
+  -webkit-appearance: none;
+}
