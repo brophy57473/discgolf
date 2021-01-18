@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './Home';
-import ScoringContainer from '../containers/ScoringContainer';
+import MatchScoringContainer from '../containers/ScoringContainer';
 import PlayersContainer from '../containers/PlayersContainer';
 
 const Main = () => {
@@ -10,7 +10,7 @@ const Main = () => {
             <Switch>
                 <Route path='/' exact component={Home} />
                 <Route path='/players' component={PlayersContainer} />
-                <Route path='/scoring' component={ScoringContainer} />
+                <Route path='/matchscoring' component={MatchScoringContainer} />
             </Switch>
         </main>
     )

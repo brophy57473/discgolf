@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Scoring from '../components/Scoring';
+import MatchScoring from '../components/MatchScoring';
 
-const ScoringContainer = (props) => {
+const MatchScoringContainer = (props) => {
     const { names } = props.location.state;
    const scorecard = [];
    scorecard[0] = names;
@@ -45,7 +45,7 @@ const ScoringContainer = (props) => {
     }
 
     return (
-        <Scoring 
+        <MatchScoring 
         pushHole={pushHole} 
         prevHole={prevHole}
         data={scores[scores.length - 1]} 
@@ -53,4 +53,4 @@ const ScoringContainer = (props) => {
     )
 }
 
-export default ScoringContainer;
+export default MatchScoringContainer;

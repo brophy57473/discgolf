@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Scoring = (props) => {
+const MatchScoring = (props) => {
     return (
         <div>
             <div className='score-title'>Hole {props.data.hole} - {props.data.points} points</div>
@@ -20,4 +20,4 @@ const Scoring = (props) => {
     )
 } 
 
-export default Scoring;
+export default MatchScoring;

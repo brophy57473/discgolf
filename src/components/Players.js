@@ -26,7 +26,7 @@ const Players = (props) => {
         <br/>
 
         
-        <Link to={{ pathname:'/scoring', state: { names: names } }}><button id="startRound">Start Round</button></Link>            
+        <Link to={{ pathname:'/matchscoring', state: { names: names } }}><button id="startRound">Start Round</button></Link>            
         </div>
     )
 }
