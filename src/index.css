@@ -109,12 +109,19 @@ form {
   align-content: center;
   margin-top: 20px;
 }
-#previous, #push{
+#previous, #push, #next{
   padding: 10px;
-  width: 100px;
+  width: 70px;
 }
 .won-hole {
   width: 50px;
+}
+.score-hole {
+  width: 10vw;
+  background-color: lightgreen;
+}
+.selected {
+  background-color: darkgreen;
 }
 button {
   -webkit-appearance: none;

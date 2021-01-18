@@ -6,6 +6,7 @@ const Players = (props) => {
     let names = props.names;
     let handleChange = props.handleChange;
     let handleClick = props.handleClick;
+    let game = props.format;
 
     let listNames = names.map((item) => 
             <li onClick={handleClick} className='player-list-item' id={item.id} key={item.id}>
@@ -26,7 +27,7 @@ const Players = (props) => {
         <br/>
 
         
-        <Link to={{ pathname:'/matchscoring', state: { names: names } }}><button id="startRound">Start Round</button></Link>            
+        <Link to={{ pathname:`/${game}scoring`, state: { names: names } }}><button id="startRound">Start Round</button></Link>            
         </div>
     )
 }

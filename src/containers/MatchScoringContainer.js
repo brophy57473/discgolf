@@ -7,8 +7,6 @@ const MatchScoringContainer = (props) => {
    scorecard[0] = names;
    scorecard[0].hole = 1;
    scorecard[0].points = 1;
-   let holeData = names;
-    //LOOK AT YOUR PROPS AND USE SCORES!!
     
     const [ scores, setScores ] = useState(scorecard);
     const wonHole = (e) => {

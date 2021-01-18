@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Players from '../components/Players';
 
-const PlayerContainer = () => {
+const PlayerContainer = (props) => {
+    const { game } = props.location.state;
    
     const [player, setPlayer] = useState([]); 
     const handleChange = (event) => {
@@ -21,7 +22,7 @@ const PlayerContainer = () => {
     }
 
     return (
-        <Players handleChange={handleChange} handleSubmit={handleSubmit} handleClick={handleClick} names={names}/>
+        <Players format={game} handleChange={handleChange} handleSubmit={handleSubmit} handleClick={handleClick} names={names}/>
        
     )
 }
