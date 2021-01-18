@@ -118,10 +118,14 @@ form {
 }
 .score-hole {
   width: 10vw;
-  background-color: lightgreen;
+  background-color: lightgray;
 }
-.selected {
-  background-color: darkgreen;
+.selected.positive {
+  background-color: green;
+  color: white;
+}
+.selected.negative {
+  background-color: red;
 }
 button {
   -webkit-appearance: none;

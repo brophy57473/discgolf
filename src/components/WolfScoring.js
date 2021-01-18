@@ -10,10 +10,10 @@ const WolfScoring = (props) => {
                     {name}
                     <br/>
                     Score: {score}
-                    <button onClick={props.handleScore} className='score-hole' id={name}>-{props.data.points / 2}</button>
-                    <button onClick={props.handleScore} className='score-hole' id={name}>-{props.data.points / 3}</button>
-                    <button onClick={props.handleScore} className='score-hole' id={name}>+{props.data.points / 3}</button>
-                    <button onClick={props.handleScore} className='score-hole' id={name}>+{props.data.points / 2}</button>
+                    <button onClick={props.handleScore} className='score-hole negative' id={name}>-{props.data.points / 2}</button>
+                    <button onClick={props.handleScore} className='score-hole negative' id={name}>-{props.data.points / 3}</button>
+                    <button onClick={props.handleScore} className='score-hole positive' id={name}>+{props.data.points / 3}</button>
+                    <button onClick={props.handleScore} className='score-hole positive' id={name}>+{props.data.points / 2}</button>
                 </div>
                  )}
                  <div id="buttons">
