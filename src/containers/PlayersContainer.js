@@ -13,7 +13,7 @@ const PlayerContainer = (props) => {
     const [names, setNames] = useState([]);
     const handleSubmit = (event) => {
         event.preventDefault();
-        setNames((prev) => ([{name: player, id: Date.now(), score: 0},...prev]));
+        setNames((prev) => ([...prev, {name: player, id: Date.now(), score: 0}]));
         event.target.reset();
     }
 
