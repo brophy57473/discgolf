@@ -1,73 +1,54 @@
 import React from 'react';
 
 const WolfScoring = (props) => {
-    const scores = props.scores;
-    const currentScores = scores[scores.length - 1];
-    if (props.teams.length === 5 || !props.teams.length){
-        return (
-            <div> 
-                <div className='score-title'>Hole {currentScores.hole} - {currentScores.points} points</div>
-                <div className='wolf-title'>{props.names[0].name}: {props.names[0].score}</div>
-                <button className='go-alone-button' wolf='true' onClick={props.pickPartner}>GOIN' WOLF</button>
-                <div id='team-pick-container'>
-                    Who is partners with the wolf?
-                    <br/>
-                    {props.names.slice(1).map( ({name,score,id}) => 
-                        <button className='thrower' name={name} key={id} onClick={props.pickPartner}>{name}: {score}</button>
-                    )}
-                </div>
-            </div>
-        )
+    const hole = props.data.hole;
+    const teamOne = props.data.teamOne;
+    const teamTwo = props.data.teamTwo;
+    const points = props.data.points;
+    const players = props.data.players;
+    const playersArr = Object.keys(players);
+
+    //set rotation based on scoring
+    if (hole < 5) {
+        for (let i=0; i < hole; i++){
+            playersArr.push(playersArr.shift());
+        }
+    } else {
+        let num = hole % 5;
+        for (let i=0; i < num; i++){
+            playersArr.push(playersArr.shift());
+        }
     }
-    if (props.teams) {
-        return (
-            <div>
-                <div className='score-title'>Hole {currentScores.hole} - {currentScores.points} points</div>
-                <div className='team team-one' team='one'>
-                    <div className='team-container'>
-                        {props.teams[0].map( ({name,score,id}) => 
-                        <div className='wolf-player' key={id}>{name}: {score}</div>
-                            )}
-                    </div>
-                    <button className='won-wolf-button' onClick={props.newScore}>Won Hole</button>
-                </div>
-
-                <div className='team team-two' team='two'>
-                    <div className='team-container'>
-                        {props.teams[1].map( ({name,score,id}) => 
-                        <div className='wolf-player' key={id}>{name}: {score}</div>
-                            )}
-                    </div>
-                    <button className='won-wolf-button' onClick={props.newScore}>Won Hole</button>
-                </div>
-
-                <div id="buttons">
-                    <button id='previous'onClick={props.backToTeamSelection}>Back</button>
-                    <button id='push' onClick={props.pushHole}>Push</button>
-                </div>
-            </div>
-        )
-    }
-
-    /*return (
-
+    
+  
+    return (
         <div>
-            <div className='score-title'>Hole {props.data.hole} - {props.data.points} points</div>
-            {props.data.map(({score,name,id}) => 
-                <div className='player-row'key={id}>
-                    {name}
-                    <br/>
-                    Score: {score}
-                    <button onClick={props.handleScore} className='won-hole' id={name}>Won Hole</button>
+            <div className='score-title'>Hole {hole} - {points[hole]} points</div>
+            <div className='team team-one' team='one'>
+                <div className='team-container'>
+                    {teamOne[hole].map( (name) => 
+                    <div className='team-one-player' key={players[name].id}>{name}: {players[name].score}</div>
+                        )}
                 </div>
-                 )}
-                 <div id="buttons">
-                 <button id="previous" onClick={props.prevHole}>Back</button>
-                 <button id="push" onClick={props.pushHole}>Push</button>
-                 <button id='next' onClick={props.nextHole}>Next</button>
-                 </div>
+                <button className='won-wolf-button' onClick={props.newScore}>Won Hole</button>
+            </div>
+
+            <div className='team team-two' team='two'>
+                <div className='team-container'>
+                    {teamTwo[hole].map( (name) => 
+                    <div className='team-two-player' key={players[name].id}>{name}: {players[name].score}</div>
+                        )}
+                </div>
+                <button className='won-wolf-button' onClick={props.newScore}>Won Hole</button>
+            </div>
+
+            <div id="buttons">
+                <button id='previous'onClick={props.backToTeamSelection}>Back</button>
+                <button id='push' onClick={props.pushHole}>Push</button>
+            </div>
         </div>
-    )*/
-} 
+    )
+}
+
 
 export default WolfScoring;

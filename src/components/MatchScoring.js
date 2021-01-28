@@ -1,19 +1,24 @@
 import React from 'react';
 
 const MatchScoring = (props) => {
+    const hole = props.data.hole;
+    const points = props.data.points;
+    const players = props.data.players;
+    const playersArr = Object.keys(players);
+
     return (
         <div>
-            <div className='score-title'>Hole {props.data.hole} - {props.data.points} points</div>
-            {props.data.map(({score,name,id}) => 
-                <div className='player-row'key={id}>
-                    {name}
+            <div className='score-title'>Hole {hole} - {points[hole]} points</div>
+            {playersArr.map((player) => 
+                <div className='player-row'key={players[player].id}>
+                    {player}
                     <br/>
-                    Score: {score}
-                    <button onClick={props.wonHole} className='won-hole' id={name}>Won Hole</button>
+                    Score: {players[player].score}
+                    <button onClick={props.newScore} className='won-hole' id={player}>Won Hole</button>
                 </div>
                  )}
                  <div id="buttons">
-                 <button id="previous" onClick={props.prevHole}>Back</button>
+                 <button id="previous" onClick={props.previousHole}>Back</button>
                  <button id="push" onClick={props.pushHole}>Push</button>
                  </div>
         </div>

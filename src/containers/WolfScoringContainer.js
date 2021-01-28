@@ -1,102 +1,197 @@
-import React, { useState } from 'react';
+import React from 'react';
 import WolfScoring from '../components/WolfScoring';
+import WolfTeamPick from '../components/WolfTeamPick';
 
-const WolfScoringContainer = (props) => {
-    const { names } = props.location.state;
-    const scorecard = [];
-    scorecard[0] = names;
-    scorecard[0].hole = 1;
-    scorecard[0].points = 6;
+export default class WolfScoringContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            players: props.location.state.data,
+            hole: 1,
+            points: {1: 6},
+            teamOne: {},
+            teamTwo: {},
+            pickTeams: true,
+            wolf: false
+        }
+        this.pickPartners = this.pickPartners.bind(this);
+        this.newScore = this.newScore.bind(this);
+        this.backToTeamSelection = this.backToTeamSelection.bind(this);
+        this.pushHole = this.pushHole.bind(this);
+        this.previousHole = this.previousHole.bind(this);
+    }
 
-    const [ teams, setTeams ] = useState([]);
-    const [ scores, setScores ] = useState(scorecard);
-    let holeInfo = scores[scores.length - 1];
+    componentDidMount() {
+        let players = this.state.players;
+        if (this.state.hole === 1) {
+            for ( let player in players ) {
+                players[player].score = 0;
+            }
+            this.setState({players: players});
+        } 
+    }
+    
+    calculateScores(object) {
+        for ( let player in object ) {
+            let total = Object.values(object[player]);
+            total = total.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+            total = total - object[player].id;
+            total = total - object[player].score;
+            object[player].score = total;
+        }
+        return object;
+    }
 
-    const pickPartners = (e) => {
-        //assign teams and setTeams
+    //assign teams and add object to teamOne and teamTwo
+    //object key is same as hole number
+    pickPartners(e) {
+        let newWolf = this.state.wolf;
+        let newTeamOne = this.state.teamOne;
+        let newTeamTwo = this.state.teamTwo;
         if (!e.target.getAttribute('wolf')) {
             const partner = e.target.getAttribute('name');
-            let index = names.findIndex((name) => {return name.name === partner});
-            const teamOne = [names[0], names[index]];
-            const teamTwo = names.filter((thrower) => teamOne.indexOf(thrower) === -1);
-            setTeams([teamOne,teamTwo]);
+            let wolf = document.querySelector('.wolf-title').innerHTML;
+            wolf = wolf.split(':')[0];
+            newTeamOne[this.state.hole] = [wolf, partner];
+            
+            let teamTwoNames = []; 
+            let throwers = document.querySelectorAll('.thrower-name');
+            for (let thrower of throwers) {
+                const name = thrower.innerHTML;
+                if (name !== partner){
+                    teamTwoNames.push(name);
+                }
+            }
+            newTeamTwo[this.state.hole] = teamTwoNames;
+            newWolf = false;
         } 
         if (e.target.getAttribute('wolf')) {
-            const teamOne = [names[0]];
-            const teamTwo = names.filter((thrower) => teamOne.indexOf(thrower) === -1); 
-            setTeams([teamOne,teamTwo]);
-            let scoresCopy = scores;
-            const newPoints =  scoresCopy[scoresCopy.length-1].points * 2;
-            scoresCopy[scoresCopy.length-1].points = newPoints; 
-            setScores(scoresCopy);
+            let wolf = document.querySelector('.wolf-title').innerHTML;
+            wolf = wolf.split(':')[0];
+            newTeamOne[this.state.hole] = [wolf];
+            
+            let teamTwoNames = []; 
+            let throwers = document.querySelectorAll('.thrower-name');
+            for (let thrower of throwers) {
+                const name = thrower.innerHTML;  
+                    teamTwoNames.push(name);
+            }
+            newTeamTwo[this.state.hole] = teamTwoNames;
+
+            let points = this.state.points;
+            let hole = this.state.hole;
+            points[hole] = points[hole] * 2;
+            newWolf = true;
         }
+        this.setState({teamOne: newTeamOne, teamTwo: newTeamTwo, pickTeams: false, wolf: newWolf});
     }
 
-    const newScore = (e) => {
-        //add object with hole info, teams, scores
+    //add score with key value of hole number 
+    newScore(e) {
         const team = e.target.parentNode.getAttribute('team');
-        let losers = [];
+        let players = this.state.players;
+        let hole = this.state.hole;
+        let points = this.state.points;
         let winners = [];
+        let losers = [];
         if (team === 'one'){
-            winners = teams[0];
-            losers = teams[1];
-            winners.forEach((winner) => {
-                winner.score = winner.score + (scores[scores.length-1].points/winners.length);
-            })
-            losers.forEach((loser) => {
-                loser.score = loser.score - (scores[scores.length-1].points/losers.length);
-            })
+            let winNodes = document.querySelectorAll('.team-one-player');
+            for (let node of winNodes) {
+                let name = node.innerHTML;
+                winners.push(name.split(':')[0]);
+            }
+            let loseNodes = document.querySelectorAll('.team-two-player');
+            for (let node of loseNodes) {
+                let name = node.innerHTML;
+                losers.push(name.split(':')[0]);
+            }
+            winners.forEach((winner) => players[winner][hole] = (points[hole]/winNodes.length));
+            losers.forEach((loser) => players[loser][hole] = (-points[hole]/loseNodes.length));
+            let nextHole = hole + 1;
+            points[nextHole] = 6;
+            this.calculateScores(players);
+            this.setState({players: players, hole: nextHole, points: points, pickTeams: true});
         }
         if (team === 'two'){
-            winners = teams[1];
-            losers = teams[0];
-            winners.forEach((winner) => {
-                winner.score = winner.score + (scores[scores.length-1].points/winners.length);
-            })
-            losers.forEach((loser) => {
-                loser.score = loser.score - (scores[scores.length-1].points/losers.length);
-            })   
+            let winNodes = document.querySelectorAll('.team-two-player');
+            for (let node of winNodes) {
+                let name = node.innerHTML;
+                winners.push(name.split(':')[0]);
+            }
+            let loseNodes = document.querySelectorAll('.team-one-player');
+            for (let node of loseNodes) {
+                let name = node.innerHTML;
+                losers.push(name.split(':')[0]);
+            }
+            winners.forEach((winner) => players[winner][hole] = (points[hole]/winNodes.length));
+            losers.forEach((loser) => players[loser][hole] = (-points[hole]/loseNodes.length));
+            let nextHole = hole + 1;
+            points[nextHole] = 6;
+            this.calculateScores(players);
+            this.setState({players: players, hole: nextHole, points: points, pickTeams: true});
         }
-        let newScores = winners.concat(losers);
-        newScores.hole = holeInfo.hole + 1;
-        newScores.points = 6;
-        setScores((prev) => [...prev, newScores]);
-        setTeams(names.push(names.shift()));
     }
 
-    const backToTeamSelection = () => {
-        setTeams(names.push(names.shift()));
-        let scoresCopy = scores;
-            scoresCopy[scoresCopy.length-1].points = scoresCopy[scoresCopy.length-1].points / 2;
-            setScores(scoresCopy);
+    backToTeamSelection() {
+        let points = this.state.points;
+        let hole = this.state.hole;
+        let players = this.state.players;
+        if (this.state.wolf) {
+            points[hole] = points[hole] / 2;
+        }
+        for (let player in players) {
+            delete players[player][hole];
+        }
+        this.calculateScores(players);
+        this.setState({pickTeams: true, points: points, players: players, wolf: false})
     }
 
-    const pushHole = () => {
-        let newScores = scores[scores.length - 1].map((name) => {
-            return {
-                name: name.name, 
-                id: name.id, 
-                score: name.score,
-               };
-        })
-        newScores.hole = holeInfo.hole + 1;
-        newScores.points = holeInfo.points + 6;
-        setScores((prev) => [...prev, newScores]);
-        setTeams(names.push(names.shift()));
+    pushHole() {
+        let players = this.state.players;
+        let hole = this.state.hole;
+        for (let player in players) {
+            players[player][hole] = 0;
+        }
+        let newHole = hole + 1;
+        let points = this.state.points;
+        points[newHole] = points[hole] + 6;
+        this.setState({points: points, hole: newHole, players: players})
     }
 
-    return (
-        <WolfScoring
-        //throwers = {throwers}
-        names = {names}
-        scores = {scores}
-        pickPartner = {pickPartners}
-        teams = {teams}
-        pushHole = {pushHole}
-        backToTeamSelection = {backToTeamSelection}
-        newScore = {newScore}
-        />
-    )
+    previousHole () {
+        let hole = this.state.hole;
+        let players = this.state.players;
+        if (hole > 1) {
+            hole = hole - 1;
+        }
+        for (let player in players) {
+            delete players[player][hole];
+        }
+        this.calculateScores(players);
+        this.setState({hole: hole, players: players, pickTeams: false});
+    }
+
+    render () {
+        let element;
+        if (!this.state.teamOne[this.state.hole] || this.state.pickTeams === true) {
+            element = <WolfTeamPick
+                    data = {this.state}
+                    pickPartner = {this.pickPartners}
+                    newScore = {this.newScore}
+                    previousHole = {this.previousHole}
+                    />
+        } else {
+            element = <WolfScoring
+                    data = {this.state}
+                    pickPartner = {this.pickPartners}
+                    pushHole = {this.pushHole}
+                    backToTeamSelection = {this.backToTeamSelection}
+                    newScore = {this.newScore}
+                    />
+        }
+
+        return (
+            element
+        )
+    }
 }
-
-export default WolfScoringContainer;

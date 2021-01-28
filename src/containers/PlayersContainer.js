@@ -1,30 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Players from '../components/Players';
 
-const PlayerContainer = (props) => {
-    const { game } = props.location.state;
-   
-    const [player, setPlayer] = useState([]); 
-    const handleChange = (event) => {
-        let name = event.target.value;
-        setPlayer(() => (name));
+export default class PlayerContainer extends React.Component {
+    constructor (props) {
+        super(props);
+        this.state = {
+            game: props.location.state.data.game,
+            inputValue: '',
+            players: {}
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+
     }
 
-    const [names, setNames] = useState([]);
-    const handleSubmit = (event) => {
+    handleChange(event) {
+        const value = event.target.value;
+        this.setState((prev) => ({...prev, inputValue: value}));
+    }
+
+    handleSubmit(event) {
         event.preventDefault();
-        setNames((prev) => ([...prev, {name: player, id: Date.now(), score: 0}]));
+        const name = this.state.inputValue;
+        let newPlayers = this.state.players;
+        newPlayers.[name] = {id: Date.now()};
+        this.setState((prev) => ({...prev, players: newPlayers, inputValue: ''}));
         event.target.reset();
     }
 
-    const handleClick = (idToDelete) => {
-        setNames((prev) => prev.filter((name) => name.name !== idToDelete.target.innerHTML));
-    }
+    handleClick(e) {
+        const name = e.target.innerHTML;
+        let newPlayers = this.state.players;
+        delete newPlayers[name];
+        this.setState((prev) => ({...prev, players: newPlayers, inputValue: ''}));
+        }
 
-    return (
-        <Players format={game} handleChange={handleChange} handleSubmit={handleSubmit} handleClick={handleClick} names={names}/>
-       
-    )
+    render () {
+        return (
+            <Players 
+            data = {this.state}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit} 
+            handleClick={this.handleClick} 
+            />
+        
+        )
+    }
 }
 
-export default PlayerContainer;
